@@ -18,10 +18,11 @@ class UserAccount:
         self.save()
 
     def has_balance(self, amount: float):
-        pass
+        return self.balance <= amount
 
     def save(self):
         with open(f"{self.pin}.txt", "w") as balance:
+            print(self.balance)
             balance.write(self.balance.__str__())
 
 
@@ -94,7 +95,23 @@ class BankSystem:
 
 
     def transfer(self):
-        pass
+        while (((transfer_pin := input("Enter the 4-digit pin you want to transfer to:\n > ")).isdigit() is False
+                or len(transfer_pin) != 4)
+                or transfer_pin == self.account.pin
+               or not os.path.exists(f"{transfer_pin}.txt")):
+            print("Cannot transfer to this pin, pin non-existent or invalid pin")
+
+        amount = float(input("Enter the amount you want to transfer"))
+        if not self.account.has_balance(amount):
+            print("Cannot transfer more than u have")
+
+        with open(f"{transfer_pin}.txt", "r") as balance:
+            transfer_account = UserAccount(transfer_pin, float(balance.read()))
+            transfer_account.deposit(amount)
+            self.account.withdraw(amount)
+
+
+
 
     def logout(self):
         print("Goodbye!")

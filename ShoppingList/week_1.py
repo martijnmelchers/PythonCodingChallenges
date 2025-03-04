@@ -57,11 +57,6 @@ import sys
 from collections.abc import Callable
 import re
 
-
-
-
-
-
 def main():
     try:
         while True:
@@ -105,7 +100,7 @@ def add_item():
 def update_item():
     print("[*] Update item in your list")
 
-    while (item := find_item(input("[?] What item would you like to remove?\n> "))) is None:
+    while (item := find_item(input("[?] What item would you like to update?\n> "))) is None:
         print("[!] Item not on your shopping list!")
 
     while not (quantity := input("[?] How many?\n> ")).isdigit() or int(quantity) < 1:
@@ -247,5 +242,6 @@ operations = {
     "Clear List": clear_list,
     "Exit": exit_list
 }
-operations_normalized = {key.lower(): value for key, value in operations.items()}
+operations_normalized = { key.lower(): value for key, value in operations.items() }
+
 main()
